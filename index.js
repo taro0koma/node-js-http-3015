@@ -21,10 +21,9 @@ const server = http
             rawData += chunk;
           })
           .on('end', () => {
-            const qs = require('querystring');
-            const answer = qs.parse(rawData);
-            const body = `${answer['name']}さんは${answer['yaki-shabu']}に投票しました`;
-            console.info('[' + now + '] ' + body);
+            const answer = new URLSearchParams(rawData);
+            const body = `${answer.get('name')}さんは${answer.get('yaki-shabu')}に投票しました`;
+            console.info(`[${now}] ${body}`);
             res.write(`<!DOCTYPE html><html lang="ja"><body><h1>${body}</h1></body></html>`);
             res.end();
           });
